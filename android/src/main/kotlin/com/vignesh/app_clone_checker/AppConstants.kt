@@ -14,5 +14,8 @@ object AppConstants {
     const val responseResultKey = "result"
     const val responseMessageKey = "message"
 
-
+    const val failureMessageCloned999 = "Cloned App - 999 Package Name"
+    const val failureMessageDotCount = "Cloned App - Dot Count Mismatch"
+    const val failureMessageSamsungWorkProfile = "Cloned App - Samsung Work Profile"
+    const val failureMessageOtherWorkProfile = "Cloned App - Other Work Profile"
 }

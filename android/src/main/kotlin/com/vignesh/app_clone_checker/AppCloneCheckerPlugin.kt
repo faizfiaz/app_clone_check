@@ -57,6 +57,8 @@ class AppCloneCheckerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     return
                 }
 
+                var failureMessage = AppConstants.failureMessage
+
                 myActivity?.let {
 
                     val path: String = it.filesDir.path
@@ -70,11 +72,13 @@ class AppCloneCheckerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                         ///"Package Mismatch"
                         ///"Cloned App"
                         isValidApp = false
+                        failureMessage = AppConstants.failureMessageDotCount
                         Log.d("AppCloneCheckerPlugin","Package ID Mismatch")
                     } else if (path.contains(dualAppId999)) {
                         ///"Package Directory Mismatch"
                         ///"Cloned App"
                         isValidApp = false
+                        failureMessage = AppConstants.failureMessageCloned999
                         Log.d("AppCloneCheckerPlugin","Package Mismatch")
                     } else if (!workProfileAllowedFlag && activeAdmins != null) {
                         ///"Used through Work Profile"
@@ -87,6 +91,7 @@ class AppCloneCheckerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     if (devicePolicyManager.isProfileOwnerApp(admin.packageName)) {
                                         isValidApp = false
+                                        failureMessage = AppConstants.failureMessageSamsungWorkProfile
                                     }
                                 }
                             }
@@ -94,6 +99,7 @@ class AppCloneCheckerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                             if (gmsPackages.size != activeAdmins.size) {
                                 Log.d("AppCloneCheckerPlugin", "Work Mode")
                                 isValidApp = false
+                                failureMessage = AppConstants.failureMessageOtherWorkProfile
                             } else {
 
                             }
@@ -111,7 +117,7 @@ class AppCloneCheckerPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     result.success(resultMap.toMap())
                 } else {
                     resultMap[AppConstants.responseResultKey] = AppConstants.failureID
-                    resultMap[AppConstants.responseMessageKey] = AppConstants.failureMessage
+                    resultMap[AppConstants.responseMessageKey] = failureMessage
                     result.success(resultMap.toMap())
                 }
 
